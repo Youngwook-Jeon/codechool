@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "users")
 @Table(indexes = { @Index(columnList = "userId", name = "index_userid", unique = true),
@@ -36,4 +38,7 @@ public class UserEntity implements Serializable {
 
     @Column(nullable = false)
     private String email;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<PostEntity> posts = new ArrayList<>();
 }

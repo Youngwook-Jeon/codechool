@@ -10,16 +10,11 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto implements Serializable {
+public class ExposureDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private String userId;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private String encodedPassword;
+    private String type;
     private List<PostDto> posts;
 }
