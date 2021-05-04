@@ -6,6 +6,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "users")
+@Table(indexes = { @Index(columnList = "userId", name = "index_userid", unique = true),
+        @Index(columnList = "email", name = "index_email", unique = true) })
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -32,6 +34,6 @@ public class UserEntity implements Serializable {
     @Column(nullable = false)
     private String encodedPassword;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String email;
 }

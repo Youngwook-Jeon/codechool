@@ -15,8 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.UUID;
 
-@Service
-@Qualifier("userService")
+@Service(value = "userService")
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -37,12 +36,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDto getUser(String email) {
+        UserEntity userEntity = findByEmail(email);
+        return modelMapper.map(userEntity, UserDto.class);
+    }
+
+    private UserEntity findByEmail(String email) {
         UserEntity userEntity = userRepository.findByEmail(email);
         if (userEntity == null) {
             throw new UsernameNotFoundException(email);
         }
+        return userEntity;
+    }
 
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        UserEntity userEntity = findByEmail(email);
         return new User(userEntity.getEmail(), userEntity.getEncodedPassword(), new ArrayList<>());
     }
 }

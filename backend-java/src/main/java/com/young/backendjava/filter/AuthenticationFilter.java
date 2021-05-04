@@ -1,8 +1,11 @@
 package com.young.backendjava.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.young.backendjava.SpringApplicationContext;
 import com.young.backendjava.constant.SecurityConstant;
 import com.young.backendjava.model.request.UserLoginRequestModel;
+import com.young.backendjava.service.UserService;
+import com.young.backendjava.shared.dto.UserDto;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -49,12 +52,16 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             HttpServletResponse response,
             FilterChain chain,
             Authentication authResult) throws IOException, ServletException {
-        String username = ((User) authResult.getPrincipal()).getUsername();
+        String username = ((User) authResult.getPrincipal()).getUsername(); // username == email
         String token = Jwts.builder()
                 .setSubject(username)
                 .setExpiration(new Date(System.currentTimeMillis() + SecurityConstant.EXPIRATION_DATE))
-                .signWith(SignatureAlgorithm.HS512, SecurityConstant.TOKEN_SECRET)
+                .signWith(SignatureAlgorithm.HS512, SecurityConstant.getTokenSecret())
                 .compact();
+        UserService userService = (UserService) SpringApplicationContext.getBean("userService");
+        UserDto userDto = userService.getUser(username);
+
+        response.addHeader("UserId", userDto.getUserId());
         response.addHeader(SecurityConstant.AUTH_HEADER, SecurityConstant.TOKEN_PREFIX + token);
     }
 }
