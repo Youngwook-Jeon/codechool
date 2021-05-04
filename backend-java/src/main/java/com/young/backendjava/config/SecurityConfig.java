@@ -1,6 +1,7 @@
 package com.young.backendjava.config;
 
 import com.young.backendjava.filter.AuthenticationFilter;
+import com.young.backendjava.filter.AuthorizationFilter;
 import com.young.backendjava.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .anyRequest().authenticated()
                 .and().addFilter(authenticationFilter())
+                .addFilter(new AuthorizationFilter(authenticationManager()))
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
