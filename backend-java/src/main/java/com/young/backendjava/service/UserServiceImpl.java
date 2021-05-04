@@ -1,11 +1,11 @@
 package com.young.backendjava.service;
 
 import com.young.backendjava.domain.UserEntity;
+import com.young.backendjava.exception.EmailExistsException;
 import com.young.backendjava.repository.UserRepository;
 import com.young.backendjava.shared.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserDto userDto) {
         if (userRepository.findByEmail(userDto.getEmail()) != null) {
-            throw new RuntimeException("이미 존재하는 유저입니다.");
+            throw new EmailExistsException("이미 존재하는 유저입니다.");
         }
         UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
         userEntity.setEncodedPassword(passwordEncoder.encode(userDto.getPassword()));

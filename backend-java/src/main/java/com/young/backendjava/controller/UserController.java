@@ -6,6 +6,9 @@ import com.young.backendjava.service.UserService;
 import com.young.backendjava.shared.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -16,9 +19,12 @@ public class UserController {
     private final ModelMapper modelMapper;
     private final UserService userService;
 
-    @GetMapping
-    public String getUser() {
-        return "get user details";
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public UserResponseModel getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getPrincipal().toString();
+        UserDto userDto = userService.getUser(email);
+        return modelMapper.map(userDto, UserResponseModel.class);
     }
 
     @PostMapping
