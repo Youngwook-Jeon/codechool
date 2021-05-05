@@ -9,10 +9,11 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
@@ -28,7 +29,29 @@ public class PostController {
         String email = authentication.getPrincipal().toString();
         PostCreationDto postCreationDto = modelMapper.map(postRequest, PostCreationDto.class);
         postCreationDto.setUserEmail(email);
-        PostDto postToReturn = postService.createPost(postCreationDto);
-        return modelMapper.map(postToReturn, PostResponse.class);
+        PostDto postDto = postService.createPost(postCreationDto);
+        PostResponse postResponse = modelMapper.map(postDto, PostResponse.class);
+        if (postResponse.getExpiredAt().isBefore(LocalDateTime.now())) {
+            postResponse.setExpired(true);
+        }
+
+        return postResponse;
     }
+
+    @GetMapping("/last")
+    public List<PostResponse> getLastPosts() {
+        // TODO: Refactor the duplicates
+        List<PostDto> postDtos = postService.getLastPosts();
+        List<PostResponse> postResponses = new ArrayList<>();
+        for (PostDto postDto: postDtos) {
+            PostResponse postResponse = modelMapper.map(postDto, PostResponse.class);
+            if (postResponse.getExpiredAt().isBefore(LocalDateTime.now())) {
+                postResponse.setExpired(true);
+            }
+            postResponses.add(postResponse);
+        }
+
+        return postResponses;
+    }
+
 }

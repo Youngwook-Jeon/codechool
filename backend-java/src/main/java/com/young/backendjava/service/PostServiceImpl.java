@@ -13,6 +13,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -38,6 +40,20 @@ public class PostServiceImpl implements PostService {
                 .build();
         PostEntity newPost = postRepository.save(postEntity);
         return modelMapper.map(newPost, PostDto.class);
+    }
+
+    @Override
+    public List<PostDto> getLastPosts() {
+        long publicExposureId = 1L;
+        List<PostEntity> postEntities = postRepository
+                .getLastPublicPosts(publicExposureId, LocalDateTime.now());
+        List<PostDto> postDtos = new ArrayList<>();
+        for (PostEntity postEntity : postEntities) {
+            PostDto postDto = modelMapper.map(postEntity, PostDto.class);
+            postDtos.add(postDto);
+        }
+
+        return postDtos;
     }
 
     private LocalDateTime getExpirationTime(PostCreationDto post) {
