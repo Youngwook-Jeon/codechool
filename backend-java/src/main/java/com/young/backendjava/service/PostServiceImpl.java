@@ -11,6 +11,7 @@ import com.young.backendjava.shared.dto.PostDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
@@ -54,6 +56,25 @@ public class PostServiceImpl implements PostService {
         }
 
         return postDtos;
+    }
+
+    @Override
+    public PostDto getPost(String postId) {
+        PostEntity postEntity = postRepository.findByPostId(postId);
+        return modelMapper.map(postEntity, PostDto.class);
+    }
+
+    @Override
+    public void deletePost(String postId, long userId) {
+        PostEntity postEntity = postRepository.findByPostId(postId);
+
+        if (postEntity.getUser().getId() != userId) {
+            throw new RuntimeException("접근 권한이 없습니다.");
+        }
+
+        postEntity.getUser().removePost(postEntity);
+        postEntity.getExposure().removePost(postEntity);
+        postRepository.deleteById(postEntity.getId());
     }
 
     private LocalDateTime getExpirationTime(PostCreationDto post) {

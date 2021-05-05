@@ -9,4 +9,8 @@ public interface PostService {
     PostDto createPost(PostCreationDto post);
 
     List<PostDto> getLastPosts();
+
+    PostDto getPost(String postId);
+
+    void deletePost(String postId, long userId);
 }
