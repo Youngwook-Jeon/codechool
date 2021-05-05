@@ -15,7 +15,7 @@ public class PostCreationDto implements Serializable {
 
     private String title;
     private String content;
-    private Long exposureId;
-    private Integer expirationTime;
+    private long exposureId;
+    private long expirationTime;
     private String userEmail;
 }

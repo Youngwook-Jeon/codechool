@@ -40,5 +40,6 @@ public class UserEntity implements Serializable {
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @Builder.Default
     private List<PostEntity> posts = new ArrayList<>();
 }

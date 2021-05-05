@@ -26,6 +26,7 @@ public class ExposureEntity implements Serializable {
     private String type;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "exposure")
+    @Builder.Default
     private List<PostEntity> posts = new ArrayList<>();
 
 }

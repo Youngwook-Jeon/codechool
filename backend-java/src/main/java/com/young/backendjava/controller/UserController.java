@@ -1,7 +1,7 @@
 package com.young.backendjava.controller;
 
 import com.young.backendjava.model.request.UserDetailsRequestModel;
-import com.young.backendjava.model.response.UserResponseModel;
+import com.young.backendjava.model.response.UserResponse;
 import com.young.backendjava.service.UserService;
 import com.young.backendjava.shared.dto.UserDto;
 import lombok.RequiredArgsConstructor;
@@ -20,17 +20,17 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public UserResponseModel getUser() {
+    public UserResponse getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getPrincipal().toString();
         UserDto userDto = userService.getUser(email);
-        return modelMapper.map(userDto, UserResponseModel.class);
+        return modelMapper.map(userDto, UserResponse.class);
     }
 
     @PostMapping
-    public UserResponseModel createUser(@RequestBody UserDetailsRequestModel userDetails) {
+    public UserResponse createUser(@RequestBody UserDetailsRequestModel userDetails) {
         UserDto userDto = modelMapper.map(userDetails, UserDto.class);
         UserDto newUser = userService.createUser(userDto);
-        return modelMapper.map(newUser, UserResponseModel.class);
+        return modelMapper.map(newUser, UserResponse.class);
     }
 }
