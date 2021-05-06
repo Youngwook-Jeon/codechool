@@ -87,6 +87,17 @@ public class PostController {
         return genericResponse;
     }
 
+    @PutMapping("/{id}")
+    public PostResponse updatePost(
+            @RequestBody PostCreationRequestModel postCreationRequestModel,
+            @PathVariable String id) {
+        String email = getEmailFromLoggedInUser();
+        UserDto userDto = userService.getUser(email);
+        PostCreationDto postUpdateDto = modelMapper.map(postCreationRequestModel, PostCreationDto.class);
+        PostDto updatedPostDto = postService.updatePost(id, userDto.getId(), postUpdateDto);
+        return modelMapper.map(updatedPostDto, PostResponse.class);
+    }
+
     private String getEmailFromLoggedInUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getPrincipal().toString();

@@ -77,6 +77,23 @@ public class PostServiceImpl implements PostService {
         postRepository.deleteById(postEntity.getId());
     }
 
+    @Override
+    public PostDto updatePost(String postId, long userId, PostCreationDto postUpdateDto) {
+        PostEntity postEntity = postRepository.findByPostId(postId);
+        if (postEntity.getUser().getId() != userId) {
+            throw new RuntimeException("접근 권한이 없습니다.");
+        }
+        System.out.println(postEntity.getUser().getId());
+
+        ExposureEntity exposureEntity = exposureRepository.findById(postUpdateDto.getExposureId());
+        postEntity.setExposure(exposureEntity);
+        postEntity.setTitle(postUpdateDto.getTitle());
+        postEntity.setContent(postUpdateDto.getContent());
+        postEntity.setExpiredAt(getExpirationTime(postUpdateDto));
+        PostEntity updatedPost = postRepository.save(postEntity);
+        return modelMapper.map(updatedPost, PostDto.class);
+    }
+
     private LocalDateTime getExpirationTime(PostCreationDto post) {
         return LocalDateTime.now().plusMinutes(post.getExpirationTime());
     }

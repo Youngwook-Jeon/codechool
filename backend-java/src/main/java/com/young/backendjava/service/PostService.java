@@ -13,4 +13,6 @@ public interface PostService {
     PostDto getPost(String postId);
 
     void deletePost(String postId, long userId);
+
+    PostDto updatePost(String postId, long userId, PostCreationDto postUpdateDto);
 }
