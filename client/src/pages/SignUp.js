@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import validator from "validator";
 import { isObjEmpty } from "../helpers/helpers";
-import { loginUser } from "../actions/authActions";
+import { loginUser, registerUser } from "../actions/authActions";
 import SignUpForm from "../components/forms/SignUpForm";
 
 const SignUp = () => {
@@ -19,7 +19,7 @@ const SignUp = () => {
     }
   });
 
-  const signUp = ({ email, password, firstName, lastName }) => {
+  const register = ({ email, password, firstName, lastName }) => {
     const errors = {};
     setErrors(errors);
 
@@ -44,21 +44,23 @@ const SignUp = () => {
       return;
     }
 
-    // dispatch(loginUser({ email, password }))
-    //   .then((response) => {})
-    //   .catch((err) => {
-    //     setErrors({ auth: "로그인에 실패했습니다. 다시 시도해주세요." });
-    //   });
+    dispatch(registerUser({ email, password, firstName, lastName }))
+      .then((response) => {
+          dispatch(loginUser({ email, password }));
+      })
+      .catch((err) => {
+        setErrors({ registerError: err.response.data.message });
+      });
   };
   return (
     <Container className="mt-5">
       <Row>
         <Col sm="12" md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
           <Card body>
-            {errors.auth && <Alert variant="danger">{errors.auth}</Alert>}
+            {errors.registerError && <Alert variant="danger">{errors.registerError}</Alert>}
             <h3>가입하기</h3>
             <hr />
-            <SignUpForm errors={errors} onSubmitCallback={signUp}></SignUpForm>
+            <SignUpForm errors={errors} onSubmitCallback={register}></SignUpForm>
             <div className="mt-4">
               <Link to={"/signin"}>
                 이미 계정이 있으신가요? 로그인하러 가기

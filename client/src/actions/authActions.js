@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwt_decoded from "jwt-decode";
-import { LOGIN_ENDPOINT } from "../helpers/endpoints";
+import { LOGIN_ENDPOINT, REGISTER_ENDPOINT } from "../helpers/endpoints";
 import { SET_CURRENT_USER } from "./types";
 import setAuthToken from "../helpers/setAuthToken";
 
@@ -9,7 +9,7 @@ export const loginUser = (userData) => (dispatch) => {
     axios
       .post(LOGIN_ENDPOINT, userData, {
         headers: {
-          Accept: "application/json",
+          "Accept": "application/json",
           "Content-Type": "application/json",
         },
       })
@@ -26,6 +26,24 @@ export const loginUser = (userData) => (dispatch) => {
       });
   });
 };
+
+export const registerUser = (userData) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(REGISTER_ENDPOINT, userData, {
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  };
 
 export const setCurrentUser = ({ user, loggedIn }) => {
   return {
