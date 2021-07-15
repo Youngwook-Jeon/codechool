@@ -6,6 +6,9 @@ import Posts from "./pages/Posts";
 import SignIn from "./pages/SignIn";
 import store from "./store";
 import { Provider } from "react-redux";
+import checkForToken from "./helpers/checkForToken";
+
+checkForToken();
 
 function App() {
   return (

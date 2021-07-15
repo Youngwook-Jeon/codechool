@@ -9,7 +9,7 @@ export const loginUser = (userData) => (dispatch) => {
     axios
       .post(LOGIN_ENDPOINT, userData, {
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
       })
@@ -28,8 +28,19 @@ export const loginUser = (userData) => (dispatch) => {
 };
 
 export const setCurrentUser = ({ user, loggedIn }) => {
-    return {
-        type: SET_CURRENT_USER,
-        payload: { user, loggedIn }
-    }
-}
+  return {
+    type: SET_CURRENT_USER,
+    payload: { user, loggedIn },
+  };
+};
+
+export const logoutUser = (dispatch) => {
+  localStorage.removeItem("jwtToken");
+  setAuthToken(false);
+  dispatch(
+    setCurrentUser({
+      user: {},
+      loggedIn: false,
+    })
+  );
+};
