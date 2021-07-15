@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import SignInForm from "../components/forms/SignInForm";
 import validator from "validator";
 import { isObjEmpty } from "../helpers/helpers";
@@ -10,8 +10,14 @@ import { loginUser } from "../actions/authActions";
 const SignIn = () => {
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
+  const loggedIn = useSelector((state) => state.auth.loggedIn);
+  const history = useHistory();
 
-  useEffect(() => {});
+  useEffect(() => {
+    if (loggedIn) {
+      history.push("/");
+    }
+  });
 
   const login = ({ email, password }) => {
     const errors = {};
