@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Alert, Card, Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import SignInForm from "../components/forms/SignInForm";
 import validator from "validator";
 import { isObjEmpty } from "../helpers/helpers";
 import { loginUser } from "../actions/authActions";
+import SignUpForm from "../components/forms/SignUpForm";
 
-const SignIn = () => {
+const SignUp = () => {
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const loggedIn = useSelector((state) => state.auth.loggedIn);
@@ -19,7 +19,7 @@ const SignIn = () => {
     }
   });
 
-  const login = ({ email, password }) => {
+  const signUp = ({ email, password, firstName, lastName }) => {
     const errors = {};
     setErrors(errors);
 
@@ -27,8 +27,16 @@ const SignIn = () => {
       errors.email = "유효하지 않은 이메일입니다.";
     }
 
-    if (validator.isEmpty(password)) {
-      errors.password = "패스워드를 입력하세요.";
+    if (!validator.isLength(password, { min: 8, max: 30 })) {
+      errors.password = "8자이상, 30자 이하로 입력하세요.";
+    }
+
+    if (validator.isEmpty(firstName)) {
+      errors.firstName = "이름을 입력하세요.";
+    }
+
+    if (validator.isEmpty(lastName)) {
+      errors.lastName = "성씨를 입력하세요.";
     }
 
     if (!isObjEmpty(errors)) {
@@ -36,11 +44,11 @@ const SignIn = () => {
       return;
     }
 
-    dispatch(loginUser({ email, password }))
-      .then((response) => {})
-      .catch((err) => {
-        setErrors({ auth: "로그인에 실패했습니다. 다시 시도해주세요." });
-      });
+    // dispatch(loginUser({ email, password }))
+    //   .then((response) => {})
+    //   .catch((err) => {
+    //     setErrors({ auth: "로그인에 실패했습니다. 다시 시도해주세요." });
+    //   });
   };
   return (
     <Container className="mt-5">
@@ -48,11 +56,13 @@ const SignIn = () => {
         <Col sm="12" md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
           <Card body>
             {errors.auth && <Alert variant="danger">{errors.auth}</Alert>}
-            <h3>로그인</h3>
+            <h3>가입하기</h3>
             <hr />
-            <SignInForm errors={errors} onSubmitCallback={login}></SignInForm>
+            <SignUpForm errors={errors} onSubmitCallback={signUp}></SignUpForm>
             <div className="mt-4">
-              <Link to={"/signup"}>계정이 없으신가요? 가입하러 가기</Link>
+              <Link to={"/signin"}>
+                이미 계정이 있으신가요? 로그인하러 가기
+              </Link>
             </div>
           </Card>
         </Col>
@@ -61,4 +71,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;

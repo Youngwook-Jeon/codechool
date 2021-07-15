@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import checkForToken from "./helpers/checkForToken";
 import PrivateRoute from "./utils/PrivateRoute";
 import UserPosts from "./pages/UserPosts";
+import SignUp from "./pages/SignUp";
 
 checkForToken();
 
@@ -23,6 +24,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Posts}></Route>
             <Route exact path="/signin" component={SignIn}></Route>
+            <Route exact path="/signup" component={SignUp}></Route>
             <PrivateRoute exact path="/posts" component={UserPosts}></PrivateRoute>
           </Switch>
         </Container>

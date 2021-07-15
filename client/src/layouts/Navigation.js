@@ -22,7 +22,7 @@ const Navigation = () => {
         <Nav>
           {!loggedIn ? (
             <React.Fragment>
-              <Nav.Link>가입하기</Nav.Link>
+              <Nav.Link as={NavLink} to={"/signup"}>가입하기</Nav.Link>
               <Nav.Link as={NavLink} to={"/signin"}>
                 로그인
               </Nav.Link>
