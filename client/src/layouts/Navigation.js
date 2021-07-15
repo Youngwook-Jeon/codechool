@@ -29,7 +29,7 @@ const Navigation = () => {
             </React.Fragment>
           ) : (
             <NavDropdown title={user.sub} id="menu-dropdown">
-              <NavDropdown.Item>포스트</NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to={"/posts"}>포스트</NavDropdown.Item>
               <NavDropdown.Item onClick={() => dispatch(logoutUser())}>로그아웃</NavDropdown.Item>
             </NavDropdown>
           )}
