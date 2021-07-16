@@ -1,5 +1,5 @@
 import React from "react";
-import { Badge, Card } from "react-bootstrap";
+import { Badge, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { exposures } from "../../helpers/exposures";
@@ -8,7 +8,7 @@ const Post = ({ post, renderControls }) => {
   return (
     <Card className="mb-4">
       {renderControls && (
-        <Card.Header>
+        <Card.Header className="d-flex justify-content-between">
           <div>
             <Badge variant="secondary" className="mr-2">
               {post.exposure.type}
@@ -18,6 +18,10 @@ const Post = ({ post, renderControls }) => {
                 expired
               </Badge>
             )}
+          </div>
+          <div>
+              <Button variant="primary" size="sm" className="mr-2">수정</Button>
+              <Button variant="primary" size="sm">삭제</Button>
           </div>
         </Card.Header>
       )}

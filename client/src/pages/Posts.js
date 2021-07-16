@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Jumbotron } from "react-bootstrap";
 import Post from "../components/post/Post";
+import Placeholder from "../components/utils/Placeholder";
 import { PUBLIC_POSTS_ENDPOINT } from "../helpers/endpoints";
 
 const Posts = () => {
@@ -25,6 +26,7 @@ const Posts = () => {
       <Jumbotron>
           <h1>최신 공개 포스트들</h1>
       </Jumbotron>
+      {fetching && <Placeholder></Placeholder>}
       <div>
           {posts.map(post => <Post key={post.postId} post={post} renderControls={false}></Post>)}
       </div>
