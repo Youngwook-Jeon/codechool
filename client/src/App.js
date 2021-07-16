@@ -10,6 +10,7 @@ import checkForToken from "./helpers/checkForToken";
 import PrivateRoute from "./utils/PrivateRoute";
 import UserPosts from "./pages/UserPosts";
 import SignUp from "./pages/SignUp";
+import NewPost from "./pages/NewPost";
 import PostDetails from "./pages/PostDetails";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
@@ -36,6 +37,7 @@ function App() {
             <Route exact path="/signup" component={SignUp}></Route>
             <Route exact path="/post/:id" component={PostDetails}></Route>
             <PrivateRoute exact path="/posts" component={UserPosts}></PrivateRoute>
+            <PrivateRoute exact path="/newpost" component={NewPost}></PrivateRoute>
           </Switch>
         </Container>
       </Router>

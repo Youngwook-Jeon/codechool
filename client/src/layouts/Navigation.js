@@ -17,7 +17,7 @@ const Navigation = () => {
       <Navbar.Toggle aria-controls="main-menu"></Navbar.Toggle>
       <Navbar.Collapse id="main-menu">
         <Nav className="mr-auto">
-          {loggedIn && <Nav.Link>포스트 작성하기</Nav.Link>}
+          {loggedIn && <Nav.Link as={NavLink} to={"/newpost"}>포스트 작성하기</Nav.Link>}
         </Nav>
         <Nav>
           {!loggedIn ? (
