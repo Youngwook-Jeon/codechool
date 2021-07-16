@@ -5,6 +5,8 @@ import { POST_DETAILS_ENDPOINT } from "../helpers/endpoints";
 import { Card, Jumbotron, Button } from "react-bootstrap";
 import moment from "moment";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { toast } from "react-toastify";
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -44,12 +46,24 @@ const PostDetails = () => {
               >
                 다운로드
               </Button>
-              <Button variant="primary" size="sm" onClick={() => {}}>
-                클립보드에 복사
-              </Button>
+              <CopyToClipboard
+                onCopy={() => {
+                  toast.info("클립보드에 복사되었습니다.", {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    autoClose: 2000,
+                  });
+                }}
+                text={post.content}
+              >
+                <Button variant="primary" size="sm" onClick={() => {}}>
+                  클립보드에 복사
+                </Button>
+              </CopyToClipboard>
             </Card.Header>
             <Card.Body>
-              <SyntaxHighlighter showLineNumbers={true}>{post.content}</SyntaxHighlighter>
+              <SyntaxHighlighter showLineNumbers={true}>
+                {post.content}
+              </SyntaxHighlighter>
             </Card.Body>
           </Card>
         </React.Fragment>

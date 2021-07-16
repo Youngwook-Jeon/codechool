@@ -11,6 +11,8 @@ import PrivateRoute from "./utils/PrivateRoute";
 import UserPosts from "./pages/UserPosts";
 import SignUp from "./pages/SignUp";
 import PostDetails from "./pages/PostDetails";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 // moment config
 import moment from "moment";
@@ -27,6 +29,7 @@ function App() {
           <Navigation />
         </div>
         <Container>
+          <ToastContainer />
           <Switch>
             <Route exact path="/" component={Posts}></Route>
             <Route exact path="/signin" component={SignIn}></Route>
