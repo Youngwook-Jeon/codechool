@@ -7,6 +7,7 @@ import moment from "moment";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toast } from "react-toastify";
+import { downloadTextAsFile } from "../helpers/helpers";
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -42,7 +43,9 @@ const PostDetails = () => {
                 className="mr-2"
                 variant="primary"
                 size="sm"
-                onClick={() => {}}
+                onClick={() => {
+                    downloadTextAsFile(post.postId, post.content)
+                }}
               >
                 다운로드
               </Button>
