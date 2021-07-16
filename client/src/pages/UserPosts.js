@@ -1,36 +1,48 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Jumbotron } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { getUserPosts } from "../actions/postActions";
 import Post from "../components/post/Post";
 import Placeholder from "../components/utils/Placeholder";
-import { USER_POST_ENDPOINT } from "../helpers/endpoints";
 
 const UserPosts = () => {
-  const [posts, setPosts] = useState([]);
   const [fetching, setFetching] = useState(true);
+  const fetched = useSelector((state) => state.posts.fetched);
+  const posts = useSelector((state) => state.posts.posts);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    axios
-      .get(USER_POST_ENDPOINT)
-      .then((response) => {
-        setPosts(response.data);
-        setFetching(false);
-      })
-      .catch((e) => {
-        console.error(e);
-        setFetching(false);
-      });
+    async function fetchedPosts() {
+      if (!fetched) {
+        try {
+          setFetching(true);
+          await dispatch(getUserPosts());
+        } catch (err) {
+          toast.error(err.response.data.message, {
+            position: toast.POSITION.BOTTOM_CENTER,
+            autoClose: 2000,
+          });
+        }
+      }
+    }
+    fetchedPosts();
+    setFetching(false);
   }, []);
 
-  return <div>
+  return (
+    <div>
       <Jumbotron>
-          <h1>나의 포스트 목록</h1>
+        <h1>나의 포스트 목록</h1>
       </Jumbotron>
       {fetching && <Placeholder></Placeholder>}
       <div>
-          {posts.map(post => <Post key={post.postId} post={post} renderControls={true}></Post>)}
+        {posts.map((post) => (
+          <Post key={post.postId} post={post} renderControls={true}></Post>
+        ))}
       </div>
-  </div>;
+    </div>
+  );
 };
 
 export default UserPosts;
