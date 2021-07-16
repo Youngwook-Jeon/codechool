@@ -5,3 +5,4 @@ export const REGISTER_ENDPOINT = API_URL + "/users";
 export const PUBLIC_POSTS_ENDPOINT = API_URL + "/posts/last";
 export const POST_DETAILS_ENDPOINT = API_URL + "/posts";
 export const USER_POST_ENDPOINT = API_URL + "/users/posts";
+export const CREATE_POST_ENDPOINT = API_URL + "/posts";
