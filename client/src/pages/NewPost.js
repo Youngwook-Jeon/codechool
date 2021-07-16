@@ -8,12 +8,15 @@ import { exposures } from "../helpers/exposures";
 import { CREATE_POST_ENDPOINT } from "../helpers/endpoints";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { getUserPosts } from "../actions/postActions";
 
 const NewPost = () => {
   const [errors, setErrors] = useState({});
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const createPost = ({ title, content, expirationTime, exposureId }) => {
+  const createPost = async ({ title, content, expirationTime, exposureId }) => {
     const errors = {};
     setErrors(errors);
 
@@ -32,23 +35,22 @@ const NewPost = () => {
 
     expirationTime = exposureId == exposures.PRIVATE ? 0 : expirationTime;
 
-    axios
-      .post(CREATE_POST_ENDPOINT, {
+    try {
+      const response = await axios.post(CREATE_POST_ENDPOINT, {
         title,
         content,
         expirationTime,
         exposureId,
-      })
-      .then((response) => {
-        toast.info("포스트가 성공적으로 작성되었습니다.", {
-          position: toast.POSITION.BOTTOM_CENTER,
-          autoClose: 2000,
-        });
-        history.push(`/post/${response.data.postId}`);
-      })
-      .catch((err) => {
-        setErrors({ newpost: err.response.data.message });
       });
+      await dispatch(getUserPosts());
+      toast.info("포스트가 성공적으로 작성되었습니다.", {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: 2000,
+      });
+      history.push(`/post/${response.data.postId}`);
+    } catch (err) {
+      setErrors({ newpost: err.response.data.message });
+    }
   };
   return (
     <Container className="mt-5 mb-5">
