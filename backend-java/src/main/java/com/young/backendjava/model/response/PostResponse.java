@@ -15,7 +15,8 @@ public class PostResponse {
     private String content;
     private LocalDateTime expiredAt;
     private LocalDateTime createdAt;
-    private boolean expired = false;
+    private boolean expired;
     private UserResponse user;
     private ExposureResponse exposure;
+
 }

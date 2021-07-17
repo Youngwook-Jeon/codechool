@@ -14,9 +14,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.young.backendjava.utils.Exposures.PRIVATE;
 
 @RestController
 @RequestMapping("/posts")
@@ -28,7 +31,7 @@ public class PostController {
     private final UserService userService;
 
     @PostMapping
-    public PostResponse createPost(@RequestBody PostCreationRequestModel postRequest) {
+    public PostResponse createPost(@RequestBody @Valid PostCreationRequestModel postRequest) {
         String email = getEmailFromLoggedInUser();
         PostCreationDto postCreationDto = modelMapper.map(postRequest, PostCreationDto.class);
         postCreationDto.setUserEmail(email);
@@ -65,7 +68,7 @@ public class PostController {
             postResponse.setExpired(true);
         }
 
-        if (postResponse.getExposure().getId() == 2L || postResponse.isExpired()) {
+        if (postResponse.getExposure().getId() == PRIVATE || postResponse.isExpired()) {
             String email = getEmailFromLoggedInUser();
             UserDto userDto = userService.getUser(email);
             if (userDto.getId() != postDto.getUser().getId()) {
@@ -89,7 +92,7 @@ public class PostController {
 
     @PutMapping("/{id}")
     public PostResponse updatePost(
-            @RequestBody PostCreationRequestModel postCreationRequestModel,
+            @RequestBody @Valid PostCreationRequestModel postCreationRequestModel,
             @PathVariable String id) {
         String email = getEmailFromLoggedInUser();
         UserDto userDto = userService.getUser(email);

@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping
-    public UserResponse createUser(@RequestBody UserDetailsRequestModel userDetails) {
+    public UserResponse createUser(@RequestBody @Valid UserDetailsRequestModel userDetails) {
         UserDto userDto = modelMapper.map(userDetails, UserDto.class);
         UserDto newUser = userService.createUser(userDto);
         return modelMapper.map(newUser, UserResponse.class);

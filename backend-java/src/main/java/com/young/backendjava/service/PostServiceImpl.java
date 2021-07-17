@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.young.backendjava.utils.Exposures.PUBLIC;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -46,9 +48,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDto> getLastPosts() {
-        long publicExposureId = 1L;
         List<PostEntity> postEntities = postRepository
-                .getLastPublicPosts(publicExposureId, LocalDateTime.now());
+                .getLastPublicPosts(PUBLIC, LocalDateTime.now());
         List<PostDto> postDtos = new ArrayList<>();
         for (PostEntity postEntity : postEntities) {
             PostDto postDto = modelMapper.map(postEntity, PostDto.class);
