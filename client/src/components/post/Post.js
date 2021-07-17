@@ -1,6 +1,6 @@
 import React from "react";
 import { Badge, Card, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import moment from "moment";
 import { exposures } from "../../helpers/exposures";
 import DeletePostButton from "./buttons/DeletePostButton";
@@ -21,8 +21,19 @@ const Post = ({ post, renderControls }) => {
             )}
           </div>
           <div>
-              <Button variant="primary" size="sm" className="mr-2">수정</Button>
-              <DeletePostButton postId={post.postId} title={post.title}></DeletePostButton>
+            <Button
+              variant="primary"
+              size="sm"
+              className="mr-2"
+              as={NavLink}
+              to={`editpost/${post.postId}`}
+            >
+              수정
+            </Button>
+            <DeletePostButton
+              postId={post.postId}
+              title={post.title}
+            ></DeletePostButton>
           </div>
         </Card.Header>
       )}

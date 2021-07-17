@@ -19,6 +19,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 // moment config
 import moment from "moment";
 import "moment/locale/ko";
+import EditPost from "./pages/EditPost";
 moment.locale("ko");
 
 checkForToken();
@@ -39,6 +40,7 @@ function App() {
             <Route exact path="/post/:id" component={PostDetails}></Route>
             <PrivateRoute exact path="/posts" component={UserPosts}></PrivateRoute>
             <PrivateRoute exact path="/newpost" component={NewPost}></PrivateRoute>
+            <PrivateRoute exact path="/editpost/:id" component={EditPost}></PrivateRoute>
           </Switch>
         </Container>
       </Router>

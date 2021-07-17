@@ -2,11 +2,19 @@ import React, { useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { exposures } from "../../helpers/exposures";
 
-const NewPostForm = ({ errors, onSubmitCallback }) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [expirationTime, setExpirationTime] = useState(60);
-  const [exposureId, setExposureId] = useState(exposures.PUBLIC);
+const NewPostForm = ({
+  errors,
+  onSubmitCallback,
+  pTitle = "",
+  pContent = "",
+  pExposureId = exposures.PUBLIC,
+  pExpirationTime = 60,
+  textButton = "작성완료",
+}) => {
+  const [title, setTitle] = useState(pTitle);
+  const [content, setContent] = useState(pContent);
+  const [expirationTime, setExpirationTime] = useState(pExpirationTime);
+  const [exposureId, setExposureId] = useState(pExposureId);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -98,7 +106,7 @@ const NewPostForm = ({ errors, onSubmitCallback }) => {
       </Form.Group>
 
       <Button variant="primary" type="submit">
-        작성완료
+        {textButton}
       </Button>
     </Form>
   );
