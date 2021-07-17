@@ -30,7 +30,7 @@ const EditPost = () => {
       .catch((e) => {
         history.push("/");
       });
-  }, []);
+  }, [id, history]);
 
   const editPost = async ({ title, content, expirationTime, exposureId }) => {
     const errors = {};
@@ -49,7 +49,7 @@ const EditPost = () => {
       return;
     }
 
-    expirationTime = exposureId == exposures.PRIVATE ? 0 : expirationTime;
+    expirationTime = parseInt(exposureId) === exposures.PRIVATE ? 0 : expirationTime;
 
     try {
       const response = await axios.put(`${UPDATE_POST_ENDPOINT}/${post.postId}`, {

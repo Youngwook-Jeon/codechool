@@ -2,7 +2,7 @@ import { SET_USER_POSTS } from "../actions/types";
 
 const initialState = { posts: [], fetched: false };
 
-export default function(state = initialState, action) {
+export default function userPostReducer(state = initialState, action) {
     const { type, payload } = action;
 
     switch (type) {

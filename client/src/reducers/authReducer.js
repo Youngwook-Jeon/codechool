@@ -2,7 +2,7 @@ import { SET_CURRENT_USER } from "../actions/types";
 
 const initialState = { loggedIn: false, user: {} };
 
-export default function(state = initialState, action) {
+export default function authReducer(state = initialState, action) {
     const { type, payload } = action;
 
     switch (type) {

@@ -42,7 +42,7 @@ const NewPostForm = ({
           <Form.Group controlId="expirationTime">
             <Form.Label>만료 시간</Form.Label>
             <Form.Control
-              disabled={exposureId == exposures.PRIVATE}
+              disabled={parseInt(exposureId) === exposures.PRIVATE}
               as="select"
               value={expirationTime}
               onChange={(e) => setExpirationTime(e.target.value)}
@@ -66,7 +66,7 @@ const NewPostForm = ({
             <div>
               <Form.Check
                 onChange={(e) => setExposureId(e.target.value)}
-                checked={exposureId == exposures.PRIVATE}
+                checked={parseInt(exposureId) === exposures.PRIVATE}
                 value={exposures.PRIVATE}
                 inline
                 label="Private"
@@ -76,7 +76,7 @@ const NewPostForm = ({
 
               <Form.Check
                 onChange={(e) => setExposureId(e.target.value)}
-                checked={exposureId == exposures.PUBLIC}
+                checked={parseInt(exposureId) === exposures.PUBLIC}
                 value={exposures.PUBLIC}
                 inline
                 label="Public"

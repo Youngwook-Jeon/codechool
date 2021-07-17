@@ -24,7 +24,7 @@ const PostDetails = () => {
       .catch((e) => {
         history.push("/");
       });
-  }, []);
+  }, [id, history]);
 
   return (
     <div className="pb-4">

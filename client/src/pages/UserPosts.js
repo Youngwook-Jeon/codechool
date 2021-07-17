@@ -29,7 +29,7 @@ const UserPosts = () => {
     }
     fetchedPosts();
     setFetching(false);
-  }, []);
+  }, [dispatch, fetched]);
 
   return (
     <div>
