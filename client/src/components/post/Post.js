@@ -3,6 +3,7 @@ import { Badge, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { exposures } from "../../helpers/exposures";
+import DeletePostButton from "./buttons/DeletePostButton";
 
 const Post = ({ post, renderControls }) => {
   return (
@@ -21,7 +22,7 @@ const Post = ({ post, renderControls }) => {
           </div>
           <div>
               <Button variant="primary" size="sm" className="mr-2">수정</Button>
-              <Button variant="primary" size="sm">삭제</Button>
+              <DeletePostButton postId={post.postId} title={post.title}></DeletePostButton>
           </div>
         </Card.Header>
       )}
