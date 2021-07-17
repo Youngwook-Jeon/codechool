@@ -1,0 +1,20 @@
+.no-posts-component {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.no-posts-component object {
+    width: 100%;
+}
+
+.post-image-container {
+    width: 300px;
+}
+
+.no-posts-component p {
+    color: #ccc;
+    font-size: 16px;
+    font-weight: 700;
+}

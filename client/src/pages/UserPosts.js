@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { getUserPosts } from "../actions/postActions";
 import Post from "../components/post/Post";
 import Placeholder from "../components/utils/Placeholder";
+import NoPosts from "../utils/NoPosts";
 
 const UserPosts = () => {
   const [fetching, setFetching] = useState(true);
@@ -36,6 +37,7 @@ const UserPosts = () => {
         <h1>나의 포스트 목록</h1>
       </Jumbotron>
       {fetching && <Placeholder></Placeholder>}
+      {!fetching && posts.length === 0 && <NoPosts text="내 포스트가 존재하지 않습니다."></NoPosts>}
       <div>
         {posts.map((post) => (
           <Post key={post.postId} post={post} renderControls={true}></Post>
